@@ -83,6 +83,11 @@ begin
 		writeln('----------------------------');
 end;
 
+procedure imprimirMinimizado(emp: empleado);
+begin
+		writeln(emp.nom, ' ', emp.ap,' - Numero: ', emp.num, ' - Edad: ', emp.edad);
+end;
+
 //------------- DEFINIR PARAMETROS ---------------//
 
 procedure definirParametros (var parametro: integer; var valor: string);
@@ -141,6 +146,23 @@ begin
 	close(arch);
 end;
 
+procedure listarMinimizada(nombre: string);
+var
+	arch: archivo;
+	emp: empleado;
+begin
+	assign(arch, Concat(nombre, '.dat'));
+	reset(arch);
+	
+	while not eof(arch) do begin
+		read(arch, emp);
+		imprimirMinimizado(emp);
+	end;
+	writeln();
+	
+	close(arch);
+end;
+
 procedure listarMayoresDe70(nombre: string);
 var
 	arch: archivo;
@@ -157,6 +179,7 @@ begin
 	
 	close(arch);
 end;
+
 
 //------------- LISTAR EMPLEADOS ---------------//
 
@@ -206,6 +229,8 @@ end;
 
 //---------------- PROCESOS GESTIONAR -------------//
 
+
+
 function verificarNumero(var arch:archivo; numero:integer): boolean;
 var
 	flag:boolean;
@@ -251,6 +276,7 @@ begin
 	
 end;
 
+//---------------- AGREGAR USUARIO -------------//
 
 procedure agregarEmpleado (nombre:string);
 var
@@ -266,10 +292,95 @@ begin
 	close(arch);
 end;
 
+//---------------- MODIFICAR EDAD -------------//
+
+function buscarUsuario (num: integer; nombre: string): integer;
+var
+	arch: archivo;
+	pos, posFinal: integer;
+	emp: empleado;
+begin
+	assign(arch, Concat(nombre, '.dat'));
+	reset(arch);
+	
+	posFinal:= -1;
+	pos:= 0;
+	while (not eof(arch)) do begin
+		read(arch, emp);
+		if (num = emp.num) then
+			posFinal:= pos;
+		pos:= pos +1;
+	end;
+	
+	close(arch);
+	buscarUsuario:= posFinal;
+	
+end;
+
+procedure cambiarEdad (nombre: string; posUsuario: integer);
+var
+	arch:archivo;
+	emp: empleado;
+	nuevaEdad: integer;
+begin
+	
+	assign(arch, Concat(nombre, '.dat'));
+	reset(arch);
+	
+	seek(arch, posUsuario);
+	read(arch, emp);
+	imprimirEmpleadoLinea(emp);
+	
+	writeln();
+	writeln('Ingrese la nueva edad del empleado');
+	readln(nuevaEdad);
+	
+	emp.edad:= nuevaEdad;
+	
+	seek(arch, posUsuario);
+	write(arch, emp);
+	
+	close(arch);
+	
+end;
+
+
 procedure modificarEdadEmpleado (nombre:string);
+var
+	flag: boolean;
+	numUsuario, posUsuario: integer;
+	opcion: string;
 begin
 	writeln('Modificar edad');
+	flag := true;
+	repeat
+		writeln('Seleccione el usuario a modificar, colocando el numero de empleado');
+		writeln();
+		
+		listarMinimizada(nombre);
+		readln(numUsuario);
+		posUsuario:= buscarUsuario(numUsuario, nombre);
+		while (posUsuario = -1)do begin
+			writeln('Usuario inexistente, seleccione otro empleado, colocando el numero de empleado');
+			listarMinimizada(nombre);
+			readln(numUsuario);
+			posUsuario:= buscarUsuario(numUsuario, nombre);
+		end;	
+		
+		cambiarEdad(nombre, posUsuario);
+		writeln();
+		listarMinimizada(nombre);
+		writeln();
+		
+		writeln('Desea modificar la edad de otro usuario? Si/No');
+		readln(opcion);
+		if (opcion = 'No') or (opcion = 'N') then
+			flag:= false;
+	until (flag = false);
+	
 end;
+
+//---------------- EXPORTAR EMPLEADOS -------------//
 
 procedure exportarEmpleados (nombre:string);
 begin
@@ -358,11 +469,14 @@ end;
 var
 	opcion: integer;
 begin
+{
 	writeln('Gestor de empleados - v1.0');
 	repeat
 		mostrarMenuGeneral();
 		readln(opcion);
 		gestionarOpcion(opcion);
 	until opcion = 0;
+}
 
+modificarEdadEmpleado('empleados');
 end.
