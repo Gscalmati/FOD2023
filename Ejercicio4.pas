@@ -11,6 +11,8 @@ type
 		end;
 
 	archivo = file of empleado;
+	
+	archivoTxt = file of text;
 
 
 //------------- PROCEDURES ARCHIVO ---------------//
@@ -382,14 +384,69 @@ end;
 
 //---------------- EXPORTAR EMPLEADOS -------------//
 
-procedure exportarEmpleados (nombre:string);
+function crearLinea (emp: empleado): string;
+var
+	linea:string;
+	edadStr, numStr: string;
 begin
-	writeln('Exportar empleado');
+	Str(emp.edad, edadStr);
+	Str(emp.num, numStr);
+	linea:= emp.nom + ' ' + emp.ap + ' - DNI: ' + emp.dni + ' - Numero: ' + numStr + ' - Edad: ' + edadStr;
+	
+	crearLinea:= linea;
+end;
+
+procedure exportarEmpleados (nombre:string);
+var
+	txt: Text;
+	arch: archivo;
+	emp: empleado;
+	linea:string;
+begin
+	writeln('Exportar empleados a TXT');
+	
+	assign(txt, 'todos_empleados.txt');
+	assign(arch, Concat(nombre, '.dat'));
+	
+	reset(arch);
+	rewrite(txt);
+	
+	while not eof(arch) do begin
+		read(arch, emp);
+		linea := crearLinea(emp);
+		writeln(txt, linea);
+	end;
+	
+	close(arch);
+	close(txt);
+	
 end;
 
 procedure exportarEmpleadosSinDNI (nombre:string);
+var
+	txt: Text;
+	arch: archivo;
+	emp: empleado;
+	linea:string;
 begin
 	writeln('Exportar empleado sin DNI');
+	
+	assign(txt, 'faltaDNIEmpleado.txt');
+	assign(arch, Concat(nombre, '.dat'));
+	
+	reset(arch);
+	rewrite(txt);
+	
+	while not eof(arch) do begin
+		read(arch, emp);
+		if (emp.dni = '00') then begin
+			linea := crearLinea(emp);
+			writeln(txt, linea);
+		end;
+	end;
+	
+	close(arch);
+	close(txt);
 end;
 
 //------------- GESTIONAR EMPLEADOS ---------------//
@@ -469,14 +526,12 @@ end;
 var
 	opcion: integer;
 begin
-{
+
 	writeln('Gestor de empleados - v1.0');
 	repeat
 		mostrarMenuGeneral();
 		readln(opcion);
 		gestionarOpcion(opcion);
 	until opcion = 0;
-}
 
-modificarEdadEmpleado('empleados');
 end.
