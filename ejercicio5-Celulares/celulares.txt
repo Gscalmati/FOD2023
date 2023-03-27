@@ -1,3 +1,9 @@
-1 5000 10 20 Ace
-Samsung
-Celu Estándar
+1 50000 Samsung
+5 20 Estandar
+Ace
+2 70000 Samsung
+10 20 Alta Gama
+Galaxy S23
+3 1200000 Samsung
+20 20 Alta Gama
+Galaxy Fold
