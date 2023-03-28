@@ -1,4 +1,4 @@
-program Pract1Ejercicio4;
+program Pract1Ejercicio5;
 
 type
 
