@@ -1,0 +1,4 @@
+1 600  Pedro
+2 1200  Juan
+3 500  Juan
+5 999  Maria
