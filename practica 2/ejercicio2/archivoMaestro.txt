@@ -1,0 +1,6 @@
+1 Scalmati 
+10 10 Giovanni 
+2 Perez 
+40 20 Jorge
+5 Leonardo
+5 0 Fernandez 

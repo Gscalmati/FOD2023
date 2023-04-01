@@ -1,0 +1,6 @@
+1 1 1 FOD
+1 1 1 Seminario
+1 1 0 ISO
+2 1 0 ISO
+2 0 0 Seminario
+5 0 1 FOD
