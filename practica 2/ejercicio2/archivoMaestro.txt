@@ -4,3 +4,5 @@
 40 20 Jorge
 5 Leonardo
 5 0 Fernandez 
+8 Juan
+0 0 Lacueva

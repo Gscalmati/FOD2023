@@ -119,6 +119,21 @@ begin
 	close(archD);
 end;
 
+procedure listarAlumnosMasDeCuatro(var archMaestro: archivoM);
+var
+	a: alumno;
+begin
+	reset(archMaestro);
+	
+	while not eof(archMaestro) do begin
+		read(archMaestro, a);
+		if (a.cantMatCursadas - a.cantMatAprobadas >= 4) then
+			imprimirAlumno(a);
+	end;
+	
+	close(archMaestro);
+end;
+
 // ACTUALIZAR MAESTRO
 
 procedure actualizarMaestro (var archM: archivoM; var archD: archivoD);
@@ -177,17 +192,17 @@ begin
 	assign (archDetalle, 'archivoDetalle.dat');
 
 	importarMaestro(txtMaestro, archMaestro);
-	//importarDetalle(txtDetalle, archDetalle);
+	importarDetalle(txtDetalle, archDetalle);
 	
 	listarMaestro(archMaestro);
-	//listarDetalle(archDetalle);
+	listarDetalle(archDetalle);
 	writeln();
 	writeln('-------------------------');
 	writeln('-------------------------');
 	writeln('-------------------------');
 	writeln();
 	actualizarMaestro (archMaestro, archDetalle);
-	//listarAlumnosMasDeCuatro(archMaestro);
-	listarMaestro (archMaestro);
+	listarAlumnosMasDeCuatro(archMaestro);
+	//listarMaestro (archMaestro);
 end.
 
