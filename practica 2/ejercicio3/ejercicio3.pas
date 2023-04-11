@@ -1,7 +1,9 @@
 program Practica2Ejercicio3;
-
+const
+	valor_alto = 9999;
 type
 
+	
 	producto = record
 		cod: integer;
 		nombre: string;
@@ -124,10 +126,108 @@ end;
 
 // ACTUALIZAR MAESTRO
 
-procedure actualizarMaestro (var maestro; var arrayDetalle: arrayD);
+procedure leer (var arch: archivoD; var reg: registroDetalle);
+begin
+	if not eof(arch) then
+		read(arch, reg)
+	else
+		reg.cod:= 9999
+end;
+
+procedure actualizarMaestro (var maestro: archivoM; var arrayD: detalles);
+var
+	reg: registroDetalle;
+	i: integer;
+	prodAux: producto;
+	vendidos: integer;
+	codActual: integer;
+	txt: Text;
+begin
+	assign(txt, 'bajoStock.txt');
+	rewrite(txt);
+	
+	reset(maestro);
+	for i:= 1 to 3 do begin
+		reset(arrayD[i]);
+		
+		leer(arrayD[i], reg);
+		
+		while (reg.cod <> valor_alto) do begin
+		
+			read(maestro, prodAux);
+			
+			while (prodAux.cod <> reg.cod) do
+				read(maestro, prodAux);
+				
+			vendidos:= 0;
+			
+			while (prodAux.cod = reg.cod) do begin
+				vendidos:= vendidos + reg.cantVendida;
+				leer(arrayD[i], reg);
+			end;
+			
+			prodAux.stockDisponible:= prodAux.stockDisponible - vendidos;
+			
+			seek(maestro, filepos(maestro)-1);
+			write(maestro, prodAux);
+		end;
+		close(arrayD[i]);
+		seek(maestro, 0);
+	end;
+	close(maestro);
+	close(txt);
+end;
+
+// EXPORTAR ARCHIVO TXT
+
+procedure exportarMaestro (var archM: archivoM);
+var
+	txt: Text;
+	p: producto;
 begin
 
+	reset(archM);
+	assign(txt, 'archivoMaestroNew.txt');
+	rewrite(txt);
+	
+	while not eof(archM) do begin
+		read(archM, p);
+		with p do begin
+			writeln(txt, cod, ' ', stockDisponible, ' ', stockMinimo, nombre);
+			writeln(txt, precio:0:0, desc);
+		end;
+	end;
+
+	close(archM);
+	close(txt);
 end;
+
+procedure exportarBajoStock (var archM: archivoM);
+var
+	txt: Text;
+	p: producto;
+begin
+
+	reset(archM);
+	assign(txt, 'bajoStock.txt');
+	rewrite(txt);
+	
+	while not eof(archM) do begin
+		read(archM, p);
+		if(p.stockDisponible < p.stockMinimo) then begin
+			with p do begin
+				writeln(txt, cod, ' ', stockDisponible, ' ', stockMinimo, nombre);
+				writeln(txt, precio:0:0, desc);
+				writeln(txt, '');
+			end;
+			end;
+
+	end;
+
+	close(archM);
+	close(txt);
+end;
+
 
 
 var
@@ -153,6 +253,10 @@ begin
 	end;
 	
 	actualizarMaestro(archivoMaestro, arrayD);
+	exportarBajoStock(archivoMaestro);
+	
+	listarArchivoMaestro(archivoMaestro);
+	exportarMaestro(archivoMaestro);
 	
 	
 end.
