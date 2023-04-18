@@ -1,12 +1,12 @@
-2 15 60 Bastones de Merluza
+2 5 60 Bastones de Merluza
 600 Bastones de Merluza 400gr
 
-4 0 80 Patitas JyQ
+4 -200 80 Patitas JyQ
 1200 Patitas JyQ 400gr
 
-5 38 50 Kanikama
+5 14 50 Kanikama
 700 Kanikama Misifu 300gr
 
-10 0 5 Atun Rojo
+10 -2 5 Atun Rojo
 5000 Atun Rojo Entero
 

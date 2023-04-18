@@ -187,7 +187,7 @@ var
 begin
 
 	reset(archM);
-	assign(txt, 'archivoMaestroNew.txt');
+	assign(txt, 'archivoMaestro.txt');
 	rewrite(txt);
 	
 	while not eof(archM) do begin
