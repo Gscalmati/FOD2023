@@ -1,0 +1,45 @@
+Numero 5 - Nombre Completo  Martina Perez
+Matricula del Dr. - Nacimiento 8765
+Datos Madre: 8888 -  Madre 5
+Datos Madre: 9999 -  Padre 5
+Matricula del Dr. - Fallecimiento 5432
+Fecha  10/10/20
+Fecha 23:59
+Fecha Buenos Aires
+-------------------
+Numero 10 - Nombre Completo  Carlos Hernandez
+Matricula del Dr. - Nacimiento 4321
+Datos Madre: 11111 -  Madre 1
+Datos Madre: 22222 -  Padre 1
+Matricula del Dr. - Fallecimiento 5432
+Fecha  20/4/23
+Fecha 15:15
+Fecha La Plata
+-------------------
+Numero 15 - Nombre Completo  Pedro Mineta
+Matricula del Dr. - Nacimiento 1111
+Datos Madre: 3333 -  Madre 2
+Datos Madre: 4444 -  Padre 2
+Matricula del Dr. - Fallecimiento 5432
+Fecha  11/11/23
+Fecha 23:59
+Fecha Campo de Mayo
+-------------------
+Numero 20 - Nombre Completo  Pedro Picapiedra
+Matricula del Dr. - Nacimiento 7654
+Datos Madre: 4444 -  Madre 3
+Datos Madre: 5555 -  Padre 3
+Matricula del Dr. - Fallecimiento -1
+Fecha ZZZ
+Fecha ZZZ
+Fecha ZZZ
+-------------------
+Numero 30 - Nombre Completo  Loco Gatti
+Matricula del Dr. - Nacimiento 9999
+Datos Madre: 8888 -  Madre 4
+Datos Madre: 9999 -  Padre 4
+Matricula del Dr. - Fallecimiento -1
+Fecha ZZZ
+Fecha ZZZ
+Fecha ZZZ
+-------------------
