@@ -1,5 +1,8 @@
 program Practica2Ejercicio4;
 
+uses
+  sysutils;
+  
 const
 	valor_alto = 9999;
 	
@@ -138,18 +141,29 @@ procedure minimo (var arrayD: arrayDetalle; var arrayR: arrayRegistro; var regD:
 var
 	i: integer;
 	indice: integer;
+	regAux: registroDetalle;
+	regFecha, regArrayFecha: TDateTime;
 begin
 	indice:= 1;
+	regAux.cod_usuario:= valor_alto;
+	regAux.fecha:= '31/12/2100';
 	for i:= 1 to 5 do begin
-		if (arrayR[i].cod_usuario < regD.cod_usuario) then
-			indice:= i
-		else if (arrayR[i].cod_usuario = regD.cod_usuario) and (arrayR[i].fecha < regD.fecha) then
+		regFecha:= StrToDate(regAux.fecha);
+		regArrayFecha:= StrToDate(arrayR[i].fecha);
+		if (arrayR[i].cod_usuario < regAux.cod_usuario) then begin
 			indice:= i;
+			regAux:= arrayR[i];
+		end
+																	// Acá si hiciera <= se quedaria siempre con el ultimo registro de fechas iguales, ya que el IGUAL haria que cambie
+		else if ((arrayR[i].cod_usuario = regAux.cod_usuario) and (regArrayFecha < regFecha)) then begin
+			indice:= i;
+			regAux:= arrayR[i];
+		end
 	end;
 	
-	regD:= arrayR[indice];
+	
 	leer(arrayD[indice], arrayR[indice]);
-		
+	regD:= regAux;
 
 end;
 
@@ -172,12 +186,14 @@ begin
 	end;
 	
 	minimo(arrayD, arrayR, regMin);
+	writeln(regMin.cod_usuario , ' ', regMin.fecha);
 	while (regMin.cod_usuario <> valor_alto) do begin
 		regAux:= regMin;
 		minTotal:= 0;
 		while ((regAux.cod_usuario = regMin.cod_usuario) and (regAux.fecha = regMin.fecha)) do begin
 			minTotal:= minTotal + regMin.tiempo_sesion;
 			minimo(arrayD, arrayR, regMin);
+			writeln(regMin.cod_usuario , ' ', regMin.fecha, ' ', minTotal:2:0);
 		end;
 		regM.cod_usuario:= regAux.cod_usuario;
 		regM.fecha:= regAux.fecha;
