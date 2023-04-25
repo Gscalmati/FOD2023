@@ -27,7 +27,7 @@ var
 	reg: registroMaestro;
 	txt: Text;
 begin
-	assign(txt, 'archivoMaestro.txt');
+	assign(txt, 'archivoChatGPT.txt');
 	reset(txt);
 	rewrite(arch);
 	
@@ -83,16 +83,35 @@ begin
 	while (reg.cli.cod <> valor_alto) do begin
 		regAux:= reg;
 		montoCliente:= 0;
+		writeln('Cliente ' , regAux.cli.cod);
 		while (regAux.cli.cod = reg.cli.cod) do begin
-			montoCliente := montoCliente + reg.monto;
-			writeln('Mismo Cliente');
-			leer(arch,reg);
+			//montoCliente := montoCliente + reg.monto;
+			regAux.anio:= reg.anio;
+			montoAnual:= 0;
+			writeln('----Anio ' , regAux.anio);
+			while ((regAux.cli.cod = reg.cli.cod) and (regAux.anio = reg.anio)) do begin
+				montoMensual:=0;
+				regAux.mes:= reg.mes;
+				while ((regAux.cli.cod = reg.cli.cod) and (regAux.anio = reg.anio) and (regAux.mes = reg.mes)) do begin
+					montoMensual:= montoMensual + reg.monto;
+					leer(arch,reg);
+				end;
+				writeln('--------Monto Mensual en ', regAux.mes, ' $', montoMensual:2:0);
+				montoAnual:= montoAnual + montoMensual;
+			end;
+			writeln('----Monto anual en ', regAux.anio, ' $', montoAnual:2:0);
+			montoCliente:= montoCliente + montoAnual;
 		end;
-		writeln(regAux.cli.cod, ': ', montoCliente:0:2);
-		montoTotal:= montoTotal + montoCliente
+		writeln('Monto total del cliente ', regAux.cli.cod, ' $', montoCliente:2:0);
+		writeln();
+		montoTotal:= montoTotal + montoCliente;
 	end;
-		writeln('Monto Total: ', montoTotal:0:2);
+	writeln();
+	writeln('El Monto Total vendido por la empresa a la fecha es: ', montoTotal:0:2);
+	close(arch);
  end;
+
+
 
 var
 	arch: archivo;
